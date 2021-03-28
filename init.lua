@@ -8,7 +8,7 @@ end
 
 minetest.register_chatcommand("jail", {
 	description = "Put player in a jail",
-	param = "<name>",
+	params = "<name>",
 	privs = {server = true, ban = true},
 	func = function(name, param)
 	local player = minetest.get_player_by_name(param)
@@ -33,7 +33,7 @@ minetest.register_chatcommand("jail", {
 
 minetest.register_chatcommand("unjail", {
 	description = "Unjail a player",
-	param = "<name>",
+	params = "<name>",
 	privs = {server = true, ban = true},
 	func = function(name, param)
 	local unjail = minetest.setting_get_pos("static_spawnpoint") or minetest.get_player_by_name(name):get_pos()
