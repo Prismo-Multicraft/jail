@@ -9,7 +9,7 @@ end
 minetest.register_chatcommand("jail", {
 	description = "Put player in a jail",
 	params = "<name>",
-	privs = {server = true, ban = true},
+	privs = {jailer = true},
 	func = function(name, param)
 	local player = minetest.get_player_by_name(param)
 		if param == "" then
@@ -34,24 +34,24 @@ minetest.register_chatcommand("jail", {
 minetest.register_chatcommand("unjail", {
 	description = "Unjail a player",
 	params = "<name>",
-	privs = {server = true, ban = true},
+	privs = {jailer = true},
 	func = function(name, param)
-	local unjail = minetest.setting_get_pos("static_spawnpoint") or minetest.get_player_by_name(name):get_pos()
-	local player = minetest.get_player_by_name(param)
+		local unjail = minetest.setting_get_pos("static_spawnpoint") or minetest.get_player_by_name(name):get_pos()
+		local player = minetest.get_player_by_name(param)
 		if param == "" then
-	return false, "Please provide a player name!"
+			return false, "Please provide a player name!"
 		elseif param == admin then	
-	return false, "Admins can't be unjailed because you also can't put them in jail!"
+			return false, "Admins can't be unjailed because you also can't put them in jail!"
 		elseif param == name then
-	return false, "You can't unjail yourself!"
+			return false, "You can't unjail yourself!"
 		else
-  		if player then
-		jailed[param] = false
-    		player:set_pos(unjail)
-    			minetest.chat_send_player(param, "You were unjailed by " .. name .. "!")
-	return true, "Succesfully unjailed " .. param .. "!"
-		else
-	return false, param .. " is not online or does not exist!"
+			if player then
+				jailed[param] = false
+				player:set_pos(unjail)
+				minetest.chat_send_player(param, "You were unjailed by " .. name .. "!")
+				return true, "Succesfully unjailed " .. param .. "!"
+			else
+				return false, param .. " is not online or does not exist!"
 			end
 		end
 	end
